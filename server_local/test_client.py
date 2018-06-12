@@ -1,3 +1,9 @@
 from reride import client
 
-client.start()
+#sample frame
+frame = [1,2]
+
+#send call
+#modes: client.TESTMODE, client.DATAMODE
+client.send_data(client.DATAMODE,frame
+)

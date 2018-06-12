@@ -1,11 +1,15 @@
 import asyncio
 import websockets
 
-server = 'ws://grvmbp.local:8767'
+test_server = 'ws://grvmbp.local:8765'
+data_server = 'ws://grvmbp.local:8767'
 
-async def hello():
+TESTMODE = 0
+DATAMODE = 1
+
+async def echo_test():
     async with websockets.connect(
-            server) as websocket:
+            test_server) as websocket:
         message = input("Enter payload: ")
 
         await websocket.send(message)
@@ -16,11 +20,11 @@ async def hello():
 
 async def _send_data(frame):
     async with websockets.connect(
-        server) as websocket: 
+        data_server) as websocket:
         await websocket.send(str(frame))
 
-def start():
-    asyncio.get_event_loop().run_until_complete(hello())
-
-def send_data(frame):
-    asyncio.get_event_loop().run_until_complete(_send_data(frame))
+def send_data(mode,frame=''):
+    if mode == TESTMODE:
+        asyncio.get_event_loop().run_until_complete(echo_test())
+    elif mode == DATAMODE:
+        asyncio.get_event_loop().run_until_complete(_send_data(frame))

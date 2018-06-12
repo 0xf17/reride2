@@ -1,4 +1,7 @@
 from reride import server
 
-server.start()
+#sample server
+#modes: server.TESTMODE, server.DATAMODE
+server.start(server.TESTMODE)
+
 server.wait()
