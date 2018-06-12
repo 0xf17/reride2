@@ -1,5 +1,4 @@
-import reride.websocket as ws
+from reride import server
 
-server = ws.WebSocketServer('grvmbp.local')
-server.start_test()
+server.start()
 server.wait()

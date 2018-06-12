@@ -1,4 +1,3 @@
-import reride.websocket as ws
+from reride import client
 
-client = ws.WebSocketClient('grvmbp.local')
-client.test()
+client.start()
