@@ -15,7 +15,7 @@ async def hello(websocket, path):
 
 async def receive(websocket, path):
     frame = await websocket.recv()
-    print(f"< {frame})
+    print(f"< {frame}")
 
 def start():
     global start_server

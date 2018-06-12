@@ -16,9 +16,8 @@ async def hello():
 
 async def _send_data(frame):
     async with websockets.connect(
-        server) as websocket:
-
-    await websocket.send(str(frame))
+        server) as websocket: 
+        await websocket.send(str(frame))
 
 def start():
     asyncio.get_event_loop().run_until_complete(hello())
