@@ -1,7 +1,3 @@
-'''
-project reride
-'''
-
 import asyncio
 import websockets
 
