@@ -19,6 +19,10 @@ async def echo_test(websocket, path):
 
     greeting = f"Hello Client!"
 
+    '''
+    send message back to the Client
+    '''
+
     await websocket.send(greeting)
     print(f"> {greeting}")
 

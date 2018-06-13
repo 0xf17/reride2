@@ -1,3 +1,6 @@
+import sys
+sys.path.append("..")
+
 from reride import client
 
 #sample frame
