@@ -16,14 +16,10 @@ def average(data):
 SAMPLE = 20
 INTERVAL = 0.005
 GAINVOL = 4.096
-#i2c0 = I2C.get_i2c_device(0x48, busnum=None, i2c_interface=0)
-#i2c1 = I2C.get_i2c_device(0x48, busnum=None, i2c_interface=1)
 adc = Adafruit_ADS1x15.ADS1115(0x48, busnum=1)
-adc1 = Adafruit_ADS1x15.ADS1115(0x49, busnum=0)#, i2c_interface=0)
-#adc1 = Adafruit_ADS1x15.ADS1115(0x49)
+adc1 = Adafruit_ADS1x15.ADS1115(0x49, busnum=0)
 CHANNELS_CONNECTED = 2
 fsr = [0]*CHANNELS_CONNECTED
-#def calibrate(
 GAIN=16
 
 CHANNELS_CONNECTED = 2
