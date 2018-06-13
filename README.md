@@ -1,5 +1,7 @@
 # reride2
 
+...
+
 ReRide is an ongoing research project at Srishti Institute of Art, Design & Technology, Bangalore to create a platform to explore interaction with personal data before, during, and after motorcycle commuting.
 
 This is a work in progress source code and documentation of the programs written for ReRide prototype 2 being developed now.
