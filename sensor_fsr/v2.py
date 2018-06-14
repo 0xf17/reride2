@@ -35,10 +35,10 @@ while True:
     f1,f2 = [],[]
     for s in range(SAMPLE):
         #for i in range(CHANNELS_CONNECTED):
-            buf = adc.read_adc(0, gain=GAIN) - mean
-            mv = map(buf,0,32767,0,1023)
-            buf1 = adc1.read_adc(0, gain=GAIN) - mean
-            mv1 = map(buf1,0,32767,0,1023)
+            buf = adc.read_adc(0, gain=GAIN) #- mean
+            mv = map(buf,-32768,32767,0,1023)
+            buf1 = adc1.read_adc(0, gain=GAIN)# - mean
+            mv1 = map(buf1,-32768,32767,0,1023)
 
             #if i is 0:
             f1.append(mv)

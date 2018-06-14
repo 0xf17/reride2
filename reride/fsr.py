@@ -18,9 +18,9 @@ def read_fsr(delay=0.5):
     fsr = []*8
     for i in range(4):
         buf = adc[0].read_adc(i, gain=GAIN)
-        fsr[i] = map(buf, -32768/GAIN, 32767/GAIN, 0, 1023)
+        fsr[i] = map(buf, -32768, 32767, 0, 1023)
     for i in range(4):
         buf = adc[1].read_adc(i, gain=GAIN)
-        fsr[4+i] = map(buf, -32768/GAIN, 32767/GAIN, 0, 1023)
+        fsr[4+i] = map(buf, -32768, 32767, 0, 1023)
     time.sleep(delay)
     return fsr
