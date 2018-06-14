@@ -6,8 +6,8 @@ GAINVOL = 4.096
 GAIN=16
 
 adc = []
-adc.append = Adafruit_ADS1x15.ADS1115(0x49, busnum=0)
-adc.append = Adafruit_ADS1x15.ADS1115(0x48, busnum=1)
+adc.append(Adafruit_ADS1x15.ADS1115(0x49, busnum=0))
+adc.append(Adafruit_ADS1x15.ADS1115(0x48, busnum=1))
 
 def map(x, min1, max1, min2, max2):
     steps = (x/(max1-min1))
