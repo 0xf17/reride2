@@ -1,3 +1,11 @@
+"""
+.. module:: sensor_fsr/v2
+   : platform:
+   : synopsis: 
+
+.. moduleauthor:: @anchitsh96
+
+"""
 import time
 import Adafruit_ADS1x15
 import Adafruit_GPIO.I2C as I2C

@@ -1,3 +1,12 @@
+"""
+.. module:: sensor_camera/generate_tag
+   : platform:
+   : synopsis:
+
+.. moduleauthor:: @grvashu
+
+"""
+
 import cv2
 import cv2.aruco as aruco
 

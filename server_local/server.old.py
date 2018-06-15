@@ -1,4 +1,11 @@
-# WS server example
+"""
+.. module:: server_local/server.old
+   : platform:
+   : synopsis: tests websocket library and its functions to implement a local ws server
+
+.. moduleauthor:: @grvashu
+
+"""
 
 import asyncio
 import websockets

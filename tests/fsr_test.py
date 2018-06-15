@@ -1,3 +1,12 @@
+"""
+.. module:: test/fsr_test
+   : platform:
+   : synopsis: test and enlists all the functions of the reride/fsr library
+
+.. moduleauthor:: @grvashu, @anchitsh96
+
+"""
+
 import sys
 sys.path.append("..")
 

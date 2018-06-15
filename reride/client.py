@@ -1,3 +1,12 @@
+"""
+.. module:: reride/client
+   : platform:
+   : synopsis:
+
+.. moduleauthor:: @grvashu
+
+"""
+
 import asyncio
 import websockets
 
@@ -16,7 +25,7 @@ async def hello():
 
 async def _send_data(frame):
     async with websockets.connect(
-        server) as websocket: 
+        server) as websocket:
         await websocket.send(str(frame))
 
 def start():

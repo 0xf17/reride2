@@ -1,3 +1,11 @@
+"""
+.. module:: reride/server
+   : platform:
+   : synopsis:
+
+.. moduleauthor:: @grvashu
+
+"""
 import asyncio
 import websockets
 

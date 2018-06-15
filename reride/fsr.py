@@ -1,3 +1,12 @@
+"""
+.. module:: reride/fsr
+   : platform:
+   : synopsis:
+
+.. moduleauthor:: @anchitsh96, @grvashu
+
+"""
+
 import time
 import Adafruit_ADS1x15
 import Adafruit_GPIO.I2C as I2C

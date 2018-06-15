@@ -1,3 +1,12 @@
+"""
+.. module:: sensor_fsr/fsr_rpizero_ads1115
+   : platform:
+   : synopsis:
+
+.. moduleauthor:: @anchitsh96
+
+"""
+
 import time
 import Adafruit_ADS1x15
 from reride import client

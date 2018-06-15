@@ -1,3 +1,11 @@
+"""
+.. module:: server_local/client.old
+   : platform:
+   : synopsis: tests websocket library and its functions to implement a local ws client
+
+.. moduleauthor:: @grvashu
+
+"""
 import asyncio
 import websockets
 import datetime
