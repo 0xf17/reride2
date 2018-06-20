@@ -1,7 +1,7 @@
 """
 .. module:: sensor_fsr/v2
    : platform:
-   : synopsis: 
+   : synopsis:
 
 .. moduleauthor:: @anchitsh96
 
@@ -24,8 +24,8 @@ def average(data):
 SAMPLE = 20
 INTERVAL = 0.005
 GAINVOL = 4.096
-adc = Adafruit_ADS1x15.ADS1115(0x48, busnum=1)
-adc1 = Adafruit_ADS1x15.ADS1115(0x49, busnum=0)
+adc = Adafruit_ADS1x15.ADS1115(0x48, busnum=0)
+adc1 = Adafruit_ADS1x15.ADS1115(0x49, busnum=1)
 CHANNELS_CONNECTED = 2
 fsr = [0]*CHANNELS_CONNECTED
 GAIN=16
@@ -37,16 +37,16 @@ value= [0]*CHANNELS_CONNECTED
 value[0] = adc.read_adc(0, gain=GAIN)
 value[1] = adc1.read_adc(0, gain=GAIN)
 
-mean = (value[0]+value[1])/2
+#mean = (value[0]+value[1])/2
 while True:
     values= []
     f1,f2 = [],[]
     for s in range(SAMPLE):
         #for i in range(CHANNELS_CONNECTED):
-            buf = adc.read_adc(0, gain=GAIN) #- mean
-            mv = map(buf,-32768,32767,0,1023)
-            buf1 = adc1.read_adc(0, gain=GAIN)# - mean
-            mv1 = map(buf1,-32768,32767,0,1023)
+            buf = adc.read_adc(0, gain=GAIN) - value[0]
+            mv = map(buf,-32768,32767,0,2048)
+            buf1 = adc1.read_adc(0, gain=GAIN) - value[1]
+            mv1 = map(buf1,-32768,32767,0,32768)
 
             #if i is 0:
             f1.append(mv)
