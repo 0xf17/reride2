@@ -46,12 +46,12 @@ while True:
             buf = adc.read_adc(0, gain=GAIN) - value[0]
             mv = map(buf,-32768,32767,0,2048)
             buf1 = adc1.read_adc(0, gain=GAIN) - value[1]
-            mv1 = map(buf1,-32768,32767,0,32768)
+            #mv1 = map(buf1,-32768,32767,0,32768)
 
             #if i is 0:
             f1.append(mv)
             #else:
-            f2.append(mv1)
+            f2.append(buf1)
             time.sleep(INTERVAL)
     values.append(f1)
     values.append(f2)
