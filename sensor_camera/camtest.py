@@ -10,8 +10,15 @@ import numpy as np
 import cv2
 import cv2.aruco as aruco
 
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
-cap = cv2.VideoCapture(0)
+camera = PiCamera()
+
+#cap = cv2.VideoCapture(0)
+cap = PiRGBArray(camera)
+
+time.sleep(0.1)
 
 def rescale_frame(frame, percent=75):
     width = int(frame.shape[1] * percent/ 100)
@@ -26,7 +33,7 @@ while(True):
     # Our operations on the frame come here
     frame = rescale_frame(frame, percent=50)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
+    aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_250)
     parameters =  aruco.DetectorParameters_create()
 
     print(parameters)
