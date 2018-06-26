@@ -129,7 +129,7 @@ class FSR:
         self.zero = self.read_fsr()
 
     def read_fsr_sampled(self, sampling_duration = 0.1, samples = 10, mapped=True, read=[0,1,2,3,4,5,6,7]):
-        fsr_sampled = [0]*samples
+        fsr_sampled = [0]*8
 
         for i in samples:
             fsr = self.read_fsr(self, mapped=mapped, read=read)
