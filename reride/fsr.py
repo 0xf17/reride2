@@ -120,10 +120,6 @@ class FSR:
                     fsr.append(buf)
         time.sleep(self.delay)
 
-        if rounded:
-            for i in range(8):
-                fsr[i] = round(fsr[i],self.round_to)
-
         return fsr
 
     def calibrate(self):
