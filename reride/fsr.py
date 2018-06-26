@@ -42,6 +42,9 @@ class FSR:
         self.gain_vol = 4.096
 
         self.delay = 0.5
+        self.round_to = 0
+
+        self.zero = [0]*8
 
         # default adc minimum output of 16Bit
         self.raw_range = [-32768, 32767]
@@ -98,27 +101,35 @@ class FSR:
         """
         self.delay = new_delay
 
-    def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7]):
+    def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7], round=True):
         fsr = []
         for i in range(4):
             if i in read:
                 buf = self.adc[0].read_adc(i, gain=self.gain)
                 if mapped is True:
-                    fsr.append(map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1]))
+                    fsr.append(map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1])-self.zero[i])
                 else:
                     fsr.append(buf)
         for i in range(4):
             if (4+i) in read:
                 buf = self.adc[1].read_adc(i, gain=self.gain)
                 if mapped is True:
-                    fsr.append(map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1]))
+                    fsr.append(map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1])-self.zero[4+i])
                 else:
                     fsr.append(buf)
         time.sleep(self.delay)
+
+        if round_to:
+            for i in fsr:
+                i = round(i,self.round_to)
+
         return fsr
 
+    def calibrate():
+        self.zero = self.read_fsr()
+
     def read_fsr_sampled(self, sampling_duration = 0.1, samples = 10, mapped=True, read=[0,1,2,3,4,5,6,7]):
-        fsr_sampled = [0]*8
+        fsr_sampled = [0]*samples
 
         for i in samples:
             fsr = self.read_fsr(self, mapped=mapped, read=read)
