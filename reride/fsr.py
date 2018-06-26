@@ -99,21 +99,21 @@ class FSR:
         self.delay = new_delay
 
     def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7]):
-        fsr = []*8
+        fsr = []
         for i in range(4):
             if i in read:
                 buf = self.adc[0].read_adc(i, gain=self.gain)
                 if mapped is True:
-                    fsr[i] = map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1])
+                    fsr.append(map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1]))
                 else:
-                    fsr[i] = buf
+                    fsr.append(buf)
         for i in range(4):
             if (4+i) in read:
                 buf = self.adc[1].read_adc(i, gain=self.gain)
                 if mapped is True:
-                    fsr[4+i] = map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1])
+                    fsr.append(map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1]))
                 else:
-                    fsr[4+i] = buf
+                    fsr.append(buf)
         time.sleep(self.delay)
         return fsr
 
