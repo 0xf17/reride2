@@ -42,7 +42,6 @@ class FSR:
         self.gain_vol = 4.096
 
         self.delay = 0.5
-        self.round_to = 0
 
         self.zero = [0]*8
 
@@ -101,31 +100,33 @@ class FSR:
         """
         self.delay = new_delay
 
-    def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7], round=True):
+    def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7]):
         fsr = []
         for i in range(4):
             if i in read:
                 buf = self.adc[0].read_adc(i, gain=self.gain)
                 if mapped is True:
-                    fsr.append(map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1])-self.zero[i])
+                    temp = map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1])-self.zero[i]
+                    fsr.append(int(temp))
                 else:
                     fsr.append(buf)
         for i in range(4):
             if (4+i) in read:
                 buf = self.adc[1].read_adc(i, gain=self.gain)
                 if mapped is True:
-                    fsr.append(map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1])-self.zero[4+i])
+                    temp = map(buf, self.raw_range[0], self.raw_range[1], self.mapped_range[0], self.mapped_range[1])-self.zero[4+i]
+                    fsr.append(int(temp))
                 else:
                     fsr.append(buf)
         time.sleep(self.delay)
 
-        if round_to:
-            for i in fsr:
-                i = round(i,self.round_to)
+        if rounded:
+            for i in range(8):
+                fsr[i] = round(fsr[i],self.round_to)
 
         return fsr
 
-    def calibrate():
+    def calibrate(self):
         self.zero = self.read_fsr()
 
     def read_fsr_sampled(self, sampling_duration = 0.1, samples = 10, mapped=True, read=[0,1,2,3,4,5,6,7]):
