@@ -122,8 +122,8 @@ class FSR:
 
         return fsr
 
-    def calibrate(self):
-        self.zero = self.read_fsr()
+    def calibrate(self, is_mapped=True):
+        self.zero = self.read_fsr(mapped=is_mapped)
 
     def read_fsr_sampled(self, sampling_duration = 0.1, samples = 10, mapped=True, read=[0,1,2,3,4,5,6,7]):
         fsr_sampled = [0]*8
