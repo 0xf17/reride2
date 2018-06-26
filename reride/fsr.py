@@ -101,7 +101,7 @@ class FSR:
         """
         self.delay = new_delay
 
-    def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7], round=True):
+    def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7], rounded=True):
         fsr = []
         for i in range(4):
             if i in read:
@@ -119,13 +119,13 @@ class FSR:
                     fsr.append(buf)
         time.sleep(self.delay)
 
-        if round_to:
-            for i in fsr:
-                i = round(i,self.round_to)
+        if rounded:
+            for i in range(8):
+                fsr[i] = round(fsr[i],self.round_to)
 
         return fsr
 
-    def calibrate():
+    def calibrate(self):
         self.zero = self.read_fsr()
 
     def read_fsr_sampled(self, sampling_duration = 0.1, samples = 10, mapped=True, read=[0,1,2,3,4,5,6,7]):
