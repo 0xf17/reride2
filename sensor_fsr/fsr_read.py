@@ -1,9 +1,9 @@
 """
-.. module:: test/fsr_test
+.. module:: sensor_fsr/fsr_read
    : platform:
    : synopsis: test and enlists all the functions of the reride/fsr library
 
-.. moduleauthor:: @grvashu, @anchitsh96
+.. moduleauthor:: @anchitsh96
 
 """
 

@@ -35,7 +35,6 @@ def rescale_frame(frame, percent=75):
 def mid_point(p1,p2):
     x = int((p1[0]+p2[0])/2)
     y = int((p1[1]+p2[1])/2)
-
     return (x,y)
 
 def distance(p1,p2):
@@ -79,6 +78,9 @@ def get_head():
     except Exception as err:
         print('ValueError: '+str(err))
 
+def get_head_and_shoulders():
+    get_head()
+    get_shoulders()
 
 for frame in camera.capture_continuous(cap, format="bgr", use_video_port = True):
     image = frame.array
@@ -87,47 +89,24 @@ for frame in camera.capture_continuous(cap, format="bgr", use_video_port = True)
     aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_250)
     parameters =  aruco.DetectorParameters_create()
 
-    #lists of ids and the corners beloning to each id
     corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, aruco_dict, parameters=parameters)
 
     id_list = ids.tolist()
-    print('ids:'+str(ids))
+
     id_list2 = []
     for i in id_list:
         id_list2.append(i[0])
 
-    print('id_list:'+str(id_list))
     image = aruco.drawDetectedMarkers(image, corners, ids)
 
-
-
-    get_shoulders()
-    get_head()
-
-
-    '''
-        try:
-            #head_top=(corners[head_id][0][0][0],corners[0][0][0][1])
-            #chin=(corners[chin_id][0][0][0],corners[1][0][0][1])
-            #shoulder_right=(corners[shoulder_right_id][0][0][0],corners[2][0][0][1])
-            #shoulder_left=(corners[shoulder_left_id][0][0][0],corners[3][0][0][1])
-            cv2.line(image, head_top,chin,(0,255,0,0),2)
-            cv2.circle(image, mid_point(head_top,chin),50,(0,0,255),2)
-            cv2.line(image, shoulder_left, shoulder_right,(255,0,0),2)
-        except IndexError:
-            print('IndexError')
-    '''
-
-
+    get_head_and_shoulders()
 
     cv2.putText(image,'RR2/CamTestv0.1.2606',(10,30),font,1,(255,0,0),1,cv2.LINE_AA)
     cv2.imshow('frame',image)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-    cap.truncate(0)
+    cap.truncate(0) # Important!
 
-# When everything done, release the capture
-# cap.release()
 camera.close()
 cv2.destroyAllWindows()
