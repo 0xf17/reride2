@@ -102,27 +102,32 @@ class FSR:
 
     def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7]):
         fsr = []
-
+        zero = []
         if mapped is True:
             out_range = self.mapped_range
         else:
             out_range = self.raw_range
 
+        # update noise based on out range
+        for i in range(8):
+            zero.append(map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
+
         for i in range(4):
             if i in read:
                 buf = self.adc[0].read_adc(i, gain=self.gain)
-                temp = map(buf-self.zero[i], self.raw_range[0], self.raw_range[1], out_range[0], out_range[1])
+                temp = map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[i]
                 fsr.append(int(temp))
         for i in range(4):
             if (4+i) in read:
                 buf = self.adc[1].read_adc(i, gain=self.gain)
-                temp = map(buf-self.zero[4+i], self.raw_range[0], self.raw_range[1], out_range[0], out_range[1])
+                temp = map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[4+i]
                 fsr.append(int(temp))
         time.sleep(self.delay)
 
         return fsr
 
     def calibrate(self):
+        time.sleep(1)   # wait for sometime before calibrating
         self.zero = self.read_fsr(mapped=False)
 
     def read_fsr_sampled(self, sampling_duration = 0.1, samples = 10, mapped=True, read=[0,1,2,3,4,5,6,7]):
