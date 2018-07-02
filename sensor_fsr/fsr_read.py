@@ -13,8 +13,9 @@ sys.path.append("..")
 from reride import fsr
 
 # Default initialisation
-f = fsr.FSR()
 
+f = fsr.FSR()
+#f.set_delay(0.2)
 f.calibrate()
 
 while True:
