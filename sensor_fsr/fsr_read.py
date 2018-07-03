@@ -19,5 +19,5 @@ f = fsr.FSR()
 f.calibrate()
 
 while True:
-    data=f.read_fsr(read=[0,4],mapped=False)
+    data=f.read_fsr(read=[0,1,2,3,4,5],mapped=False)
     print(data)
