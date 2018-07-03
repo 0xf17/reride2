@@ -12,9 +12,10 @@ import Adafruit_ADS1x15
 import Adafruit_GPIO.I2C as I2C
 
 def map(x, min1, max1, min2, max2):
-    steps = (x/(max1-min1))
-    buf = steps*(max2-min2) + min2
-    return buf
+    # steps = (x/(max1-min1))
+    # buf = steps*(max2-min2) + min2
+    buf2 = min2 + (max2 - min2) * ((x-min1)/(max1-min1))
+    return buf2
 
 class FSR:
 
