@@ -101,7 +101,7 @@ class FSR:
         """
         self.delay = new_delay
 
-    def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7]):
+    def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7], cancel_noise=True):
         fsr = []
         zero = []
         if mapped == True:
@@ -112,8 +112,12 @@ class FSR:
         #print(out_range)
 
         # update noise based on out range
-        for i in range(8):
-            zero.append(map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
+        if cancel_noise == True:
+            for i in range(8):
+                zero.append(map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
+        else:
+            for i in range(8):
+                zero.append(0)
 
         for i in range(4):
             if i in read:
