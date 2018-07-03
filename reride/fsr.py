@@ -103,10 +103,12 @@ class FSR:
     def read_fsr(self, mapped=True, read=[0,1,2,3,4,5,6,7]):
         fsr = []
         zero = []
-        if mapped is True:
+        if mapped == True:
             out_range = self.mapped_range
         else:
             out_range = self.raw_range
+
+        #print(out_range)
 
         # update noise based on out range
         for i in range(8):
@@ -116,11 +118,15 @@ class FSR:
             if i in read:
                 buf = self.adc[0].read_adc(i, gain=self.gain)
                 temp = map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[i]
+                if temp>out_range[1] or temp<out_range[0]:
+                    print('error')
                 fsr.append(int(temp))
         for i in range(4):
             if (4+i) in read:
                 buf = self.adc[1].read_adc(i, gain=self.gain)
                 temp = map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[4+i]
+                if temp>out_range[1] or temp<out_range[0]:
+                    print('error')
                 fsr.append(int(temp))
         time.sleep(self.delay)
 
