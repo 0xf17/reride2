@@ -1,5 +1,5 @@
 var f1,f2,f3,f4,f5,f6,x2=1095,y2=150,x3=1095,y3=750,b,c;
-var xoff=0;
+var xoff=0,r=0,g=0,b=0;
 var yoff=0;
 var x1off=0;
 var y1off=0;
@@ -53,14 +53,26 @@ function draw() {
 	stroke(240,240,240)
 	line(100,y1,700,y1)
 	stroke(255,255,255)
-	strokeWeight(6)
-	fill(80,80,80)
+	strokeWeight(10)
+	fill(r,g,b)
 	ellipse(x1,y1,80,80);
 	//noise generates random continuous values
 	x1 = 100+map(noise(xoff),0,1,0,600);
 	y1 = 150+map(noise(yoff),0,1,0,600);
 	xoff+=0.0022;
 	yoff+=0.0032;
+	if (x1<=400)
+	{
+		r=map(x1,100,400,255,0);
+		g=map(x1,200,300,255,0);
+		b=map(x1,100,400,0,255);
+	}
+	else {
+		r=map(x1,400,700,0,255);
+		g=map(x1,500,600,0,255);
+		b=map(x1,400,700,255,0);
+	}
+
 	//lines for axes
 	stroke(0,0,255)
 	strokeWeight(2)
