@@ -14,10 +14,10 @@ from reride import fsr
 
 # Default initialisation
 
-f = fsr.FSR()
-#f.set_delay(0.2)
-f.calibrate()
+f = fsr.FSR(adc1=[0x48,0])
+f.set_delay(0.8)
+#f.calibrate()
 
 while True:
-    data=f.read_fsr(read=[0,1,2,3,4,5],mapped=False)
+    data=f.read_fsr(read=[0,1,2,3],mapped=False,cancel_noise=True)
     print(data)
