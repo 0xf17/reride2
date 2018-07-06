@@ -31,16 +31,10 @@ class FSR:
         """
         self.adc = []
 
-        try:
-            self.adc.append(Adafruit_ADS1x15.ADS1115(adc1[0], busnum=adc1[1]))
-        except OSError as err:
-            print('OSError: '+str(err))
+        self.adc.append(Adafruit_ADS1x15.ADS1115(adc1[0], busnum=adc1[1]))
 
-        try:
-            self.adc.append(Adafruit_ADS1x15.ADS1115(adc2[0], busnum=adc2[1]))
-        except OSError as err:
-            print('OSError: '+str(err))
-
+        self.adc.append(Adafruit_ADS1x15.ADS1115(adc2[0], busnum=adc2[1]))
+        
         self.gain = 16
         self.gain_vol = 4.096
 
