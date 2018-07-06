@@ -11,12 +11,6 @@ import time
 import Adafruit_ADS1x15
 import Adafruit_GPIO.I2C as I2C
 
-def map(x, min1, max1, min2, max2):
-    # steps = (x/(max1-min1))
-    # buf = steps*(max2-min2) + min2
-    buf2 = min2 + (max2 - min2) * ((x-min1)/(max1-min1))
-    return buf2
-
 class FSR:
 
     def __init__(self, adc1 = [0x48,0], adc2 = [0x49,1]):
@@ -36,8 +30,16 @@ class FSR:
                 None
         """
         self.adc = []
-        self.adc.append(Adafruit_ADS1x15.ADS1115(adc1[0], busnum=adc1[1]))
-        self.adc.append(Adafruit_ADS1x15.ADS1115(adc2[0], busnum=adc2[1]))
+
+        try:
+            self.adc.append(Adafruit_ADS1x15.ADS1115(adc1[0], busnum=adc1[1]))
+        except OSError as err:
+            print('OSError: '+str(err))
+
+        try:
+            self.adc.append(Adafruit_ADS1x15.ADS1115(adc2[0], busnum=adc2[1]))
+        except OSError as err:
+            print('OSError: '+str(err))
 
         self.gain = 16
         self.gain_vol = 4.096
@@ -49,6 +51,13 @@ class FSR:
         # default adc minimum output of 16Bit
         self.raw_range = [-32768, 32767]
         self.mapped_range = [0, 1023]
+
+    def map(self, x, min1, max1, min2, max2):
+        if min1 >= self.raw_range[0] and max1 <= self.raw_range[1]:
+            buf = min2 + (max2 - min2) * ((x-min1)/(max1-min1))
+        else:
+            buf = 0
+        return buf
 
     def set_gain(self, new_gain):
         """ change the default gain
@@ -114,22 +123,30 @@ class FSR:
         # update noise based on out range
         if cancel_noise == True:
             for i in range(8):
-                zero.append(map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
+                zero.append(self.map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
         else:
             for i in range(8):
                 zero.append(0)
 
         for i in range(4):
             if i in read:
-                buf = self.adc[0].read_adc(i, gain=self.gain)
-                temp = map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[i]
+                buf = 0
+                try:
+                    buf = self.adc[0].read_adc(i, gain=self.gain)
+                except OSError as err:
+                    print('Read Error: '+str(err))
+                temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[i]
                 if temp>out_range[1] or temp<out_range[0]:
                     print('error')
                 fsr.append(int(temp))
         for i in range(4):
             if (4+i) in read:
-                buf = self.adc[1].read_adc(i, gain=self.gain)
-                temp = map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[4+i]
+                buf = 0
+                try:
+                    buf = self.adc[1].read_adc(i, gain=self.gain)
+                except OSError as err:
+                    print('Read Error: '+str(err))
+                temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[4+i]
                 if temp>out_range[1] or temp<out_range[0]:
                     print('error')
                 fsr.append(int(temp))
