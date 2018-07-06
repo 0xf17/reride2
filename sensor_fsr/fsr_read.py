@@ -16,7 +16,7 @@ from reride import fsr
 
 f = fsr.FSR(adc1=[0x48,0])
 f.set_delay(0.8)
-f.calibrate(read=[0,1,2,3],mapped=True,cancel_noise=True)
+f.calibrate()
 
 while True:
     data=f.read_fsr(read=[0,1,2,3],mapped=True,cancel_noise=True)
