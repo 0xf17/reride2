@@ -136,8 +136,8 @@ class FSR:
                 except OSError as err:
                     print('Read Error: '+str(err))
                 temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[i]
-                if temp>out_range[1] or temp<out_range[0]:
-                    print('error')
+                # if temp>out_range[1] or temp<out_range[0]:
+                #     print('error')
                 fsr.append(int(temp))
         for i in range(4):
             if (4+i) in read:
@@ -147,8 +147,8 @@ class FSR:
                 except OSError as err:
                     print('Read Error: '+str(err))
                 temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[4+i]
-                if temp>out_range[1] or temp<out_range[0]:
-                    print('error')
+                # if temp>out_range[1] or temp<out_range[0]:
+                #     print('error')
                 fsr.append(int(temp))
         time.sleep(self.delay)
 
