@@ -44,7 +44,8 @@ class FSR:
 
         # default adc minimum output of 16Bit
         self.raw_range = [0, 32767]
-        self.mapped_range = [0, 1024]
+        self.mapped_range = [0, 4096]
+        self.initial_mean=0
 
     def map(self, x, min1, max1, min2, max2):
         if min1 >= self.raw_range[0] and max1 <= self.raw_range[1]:
@@ -116,7 +117,9 @@ class FSR:
 
         # update noise based on out range
         if cancel_noise == True:
+
             for i in range(len(read)):
+                #print('zero_%d = %d'%(i,self.zero[i]))
                 zero.append(self.map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
 
         else:
@@ -127,10 +130,11 @@ class FSR:
             if i in read:
                 buf = 0
                 try:
-                    buf = self.adc[0].read_adc(i, gain=self.gain)
+                    buf = self.adc[0].read_adc(i, gain=self.gain)- self.initial_mean
                 except OSError as err:
                     print('Read Error: '+str(err))
-                temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[i]
+                #temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[i]
+                temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1])
                 # if temp>out_range[1] or temp<out_range[0]:
                 #     print('error')
                 fsr.append(int(temp))
@@ -138,10 +142,10 @@ class FSR:
             if (4+i) in read:
                 buf = 0
                 try:
-                    buf = self.adc[1].read_adc(i, gain=self.gain)
+                    buf = self.adc[1].read_adc(i, gain=self.gain)- self.initial_mean
                 except OSError as err:
                     print('Read Error: '+str(err))
-                temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1]) - zero[4+i]
+                temp = self.map(buf, self.raw_range[0], self.raw_range[1], out_range[0], out_range[1])
                 # if temp>out_range[1] or temp<out_range[0]:
                 #     print('error')
                 fsr.append(int(temp))
@@ -150,15 +154,24 @@ class FSR:
         return fsr
 
     def calibrate(self):
-        time.sleep(1)   # wait for sometime before calibrating
+        time.sleep(4)   # wait for sometime before calibrating
         self.zero = self.read_fsr(mapped=False, read=[0,1,2,3], cancel_noise=False)
 
-    def read_fsr_sampled(self, sampling_duration = 0.005, samples = 20, mapped=True, read=[0,1,2,3,4,5,6,7]):
-        fsr_sampled = [0]*8
+        sum=0
+        for i in self.zero:
+            sum+=i
+        self.initial_mean=sum/len(self.zero)
 
-        for i in range(samples):
-            fsr = self.read_fsr(self, mapped=mapped, read=read)
-            fsr_sampled[i] = (fsr_sampled[i] + fsr[i])/2
+    def read_fsr_sampled(self, sampling_duration = 0.005, samples = 10, mapped=True, read=[0,1,2,3,4,5,6,7],cancel_noise=True):
+        fsr_sampled = [0]*8
+        m = mapped
+        r = read
+
+        fsr = self.read_fsr(mapped=m, read=r, cancel_noise=True)
+
+        for s in range(samples):
+            for i,v in enumerate(fsr):
+                fsr_sampled[i] = int((fsr_sampled[i] + v)/2)
             time.sleep(sampling_duration)
 
         return fsr_sampled
