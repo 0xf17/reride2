@@ -116,7 +116,7 @@ class FSR:
 
         # update noise based on out range
         if cancel_noise == True:
-            for i in range(8):
+            for i in range(len(read)):
                 zero.append(self.map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
 
         else:
