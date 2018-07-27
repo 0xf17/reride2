@@ -43,8 +43,8 @@ class FSR:
         self.zero = [0]*8
 
         # default adc minimum output of 16Bit
-        self.raw_range = [-32768, 32767]
-        self.mapped_range = [0, 4095]
+        self.raw_range = [0, 32767]
+        self.mapped_range = [0, 1024]
 
     def map(self, x, min1, max1, min2, max2):
         if min1 >= self.raw_range[0] and max1 <= self.raw_range[1]:
@@ -118,7 +118,7 @@ class FSR:
         if cancel_noise == True:
             for i in range(8):
                 zero.append(self.map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
-                
+
         else:
             for i in range(8):
                 zero.append(0)
@@ -151,7 +151,7 @@ class FSR:
 
     def calibrate(self):
         time.sleep(1)   # wait for sometime before calibrating
-        self.zero = self.read_fsr(mapped=False)
+        self.zero = self.read_fsr(mapped=False, read=[0,1,2,3], cancel_noise=False)
 
     def read_fsr_sampled(self, sampling_duration = 0.005, samples = 20, mapped=True, read=[0,1,2,3,4,5,6,7]):
         fsr_sampled = [0]*8
