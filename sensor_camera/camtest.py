@@ -26,14 +26,12 @@ time.sleep(1)
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-class Marker:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-        self.frame = []
-    def send_frame(self):
-        frame.append(timestamp, corners)
-
+class CamData:
+    def __init__(self):
+        self.shoulder_right_id = id_list2.index(1)
+        self.shoulder_left_id = id_list2.index(2)
+        self.head_id = id_list2.index(5)
+        self.head_id = id_list2.index(3)
 
 
 # to be removed
@@ -44,7 +42,7 @@ def rescale_frame(frame, percent=75):
     width = int(frame.shape[1] * percent/ 100)
     height = int(frame.shape[0] * percent/ 100)
     dim = (width, height)
-    return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+    return cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
 
 def mid_point(p1,p2):
     x = int((p1[0]+p2[0])/2)

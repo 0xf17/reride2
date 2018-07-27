@@ -40,7 +40,7 @@ while True:
     for s in range(SAMPLE):
         for i in range(CHANNELS_CONNECTED):
             buf = adc.read_adc(i, gain=GAIN) - mean
-            mv = round(map(buf,-32768,32767,0,4096),0)
+            mv = round(map(buf,-32768,32767,0,8192),0)
 
             if i is 0:
                 f1.append(mv)
