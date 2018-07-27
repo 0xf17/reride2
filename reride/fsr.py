@@ -34,7 +34,7 @@ class FSR:
         self.adc.append(Adafruit_ADS1x15.ADS1115(adc1[0], busnum=adc1[1]))
 
         self.adc.append(Adafruit_ADS1x15.ADS1115(adc2[0], busnum=adc2[1]))
-        
+
         self.gain = 16
         self.gain_vol = 4.096
 
@@ -44,7 +44,7 @@ class FSR:
 
         # default adc minimum output of 16Bit
         self.raw_range = [-32768, 32767]
-        self.mapped_range = [0, 1023]
+        self.mapped_range = [0, 4095]
 
     def map(self, x, min1, max1, min2, max2):
         if min1 >= self.raw_range[0] and max1 <= self.raw_range[1]:
@@ -118,6 +118,7 @@ class FSR:
         if cancel_noise == True:
             for i in range(8):
                 zero.append(self.map(self.zero[i],self.raw_range[0],self.raw_range[1], out_range[0],out_range[1]))
+                
         else:
             for i in range(8):
                 zero.append(0)
@@ -152,10 +153,10 @@ class FSR:
         time.sleep(1)   # wait for sometime before calibrating
         self.zero = self.read_fsr(mapped=False)
 
-    def read_fsr_sampled(self, sampling_duration = 0.1, samples = 10, mapped=True, read=[0,1,2,3,4,5,6,7]):
+    def read_fsr_sampled(self, sampling_duration = 0.005, samples = 20, mapped=True, read=[0,1,2,3,4,5,6,7]):
         fsr_sampled = [0]*8
 
-        for i in samples:
+        for i in range(samples):
             fsr = self.read_fsr(self, mapped=mapped, read=read)
             fsr_sampled[i] = (fsr_sampled[i] + fsr[i])/2
             time.sleep(sampling_duration)

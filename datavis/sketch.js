@@ -92,7 +92,7 @@ function draw() {
 	line(400,150,400,750)
 
 //lean and head stoop angles
-/*	stroke(230,230,230)
+	stroke(230,230,230)
 	strokeWeight(1)
 	fill(255,255,255)
 	rect(800,100,590,700)
@@ -106,7 +106,7 @@ function draw() {
 	y2= 450+map(noise(y1off),0,1,-50,50);
 	y3= 450-(y2-450);
 	x1off+=0.0022;
-	y1off+=0.0032;*/
+	y1off+=0.0032;
 	strokeWeight(1)
 	fill(255,255,255)
 	//rect(800,100,590,700)
@@ -132,7 +132,7 @@ function draw() {
 	stroke(210,210,210)
 	strokeWeight(2)
 	line(1095,150,1095,750)
-	/*stroke(0,0,0)
+	stroke(0,0,0)
 	strokeWeight(2)
 	line(820,150,820,750)
 	stroke(0,0,0)
@@ -143,6 +143,5 @@ function draw() {
 	line(820,150,1370,150)
 	stroke(0,0,0)
 	strokeWeight(2)
-	line(820,750,1370,750)*/
-
+	line(820,750,1370,750)
 }
