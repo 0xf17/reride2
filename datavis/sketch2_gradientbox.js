@@ -99,7 +99,7 @@ function draw(){
     quad(300,445,500,445,500,0,300,0)
 
   }
-  stroke(0,0,200)
+  stroke(55,123,232)
   strokeWeight(10)
   line(200,450,600,450)
   textSize(32);
